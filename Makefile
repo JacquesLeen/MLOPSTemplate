@@ -12,7 +12,7 @@ PIP := pip
 PYTEST := pytest --verbose
 PYLINT := pylint --verbose
 BLACK := black
-#SCRIPT := fetch_cities_lat_long.py
+SCRIPT := main.py
 TEST_FILE := /test
 ALL_FILES := *.py
 
