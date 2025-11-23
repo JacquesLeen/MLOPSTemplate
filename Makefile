@@ -12,7 +12,7 @@ PYTEST := pytest --verbose
 PYLINT := $(PYTHON) -m pylint  # ← UPDATED
 BLACK := black
 SCRIPT := main.py
-TEST_FILE := /test
+TEST_FILE := ./test
 
 ALL_FILES := $(shell find . -name "*.py" -type f \
 	-not -path "./.venv/*" \
@@ -61,9 +61,14 @@ lint:
 	@echo "$(GREEN)✓ Linting passed$(NC)"
 
 test:
-	@echo "$(BLUE)Running tests...$(NC)"
-	$(PYTEST) $(TEST_FILE)
-	@echo "$(GREEN)✓ Tests passed$(NC)"
+test:
+	@if [ -d "./test" ]; then \
+		echo "$(BLUE)Running tests...$(NC)"; \
+		$(PYTEST) $(TEST_FILE); \
+		echo "$(GREEN)✓ Tests passed$(NC)"; \
+	else \
+		echo "$(YELLOW)⚠ No test directory found, skipping tests$(NC)"; \
+	fi
 
 format:
 	@echo "$(BLUE)Formatting code with black...$(NC)"

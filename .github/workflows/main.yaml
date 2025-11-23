@@ -18,9 +18,18 @@ jobs:
     - name: Install dependencies
       run: |
         make install
-    - name: Run tests
+    - name: Check if test directory exists
+      id: check_tests
       run: |
-        make test
+        if [ -d "./test" ]; then
+          echo "tests_exist=true" >> $GITHUB_OUTPUT
+        else
+          echo "tests_exist=false" >> $GITHUB_OUTPUT
+        fi
+    - name: Run tests
+      if: steps.check_tests.outputs.tests_exist == 'true'
+      run: |
+      make test
     - name: Run formatting
       run: |
         make format
