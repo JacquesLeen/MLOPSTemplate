@@ -1,0 +1,26 @@
+#yaml file for workflow configuration on push to main branch
+name: CI Workflow
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+      # operations defined in the Makefile
+      - name: Install dependencies
+        run: |make install
+      - name: Run tests
+        run: |make test
+      - name: Run formatting
+        run: |make format
+      - name: Lint code
+        run: |make lint
