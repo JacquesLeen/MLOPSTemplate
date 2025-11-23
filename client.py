@@ -1,3 +1,10 @@
+"""
+client for testing the prediction endpoint
+
+usage example:
+$ python3 client.py
+
+"""
 import json
 import requests
 
@@ -11,13 +18,11 @@ data = [
     [6.3, 3.3, 6.0, 2.5],
 ]
 
-url= "http://0.0.0.0:8000/predict/"
-predictions=[]
+url = "http://0.0.0.0:8000/predict/"
+predictions = []
 for record in data:
-    data = {
-        "features": record
-    }
+    data = {"features": record}
     data_json = json.dumps(data)
     response = requests.post(url, data=data_json)
-    predictions.append(response.json()['predicted_class'])
+    predictions.append(response.json()["predicted_class"])
 print("Predictions:", predictions)

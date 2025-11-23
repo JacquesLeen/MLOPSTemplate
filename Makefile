@@ -1,4 +1,3 @@
-
 # Colors for output
 BLUE := \033[0;34m
 GREEN := \033[0;32m
@@ -10,12 +9,15 @@ NC := \033[0m # No Color
 PYTHON := python3
 PIP := pip
 PYTEST := pytest --verbose
-PYLINT := pylint --verbose
+PYLINT := $(PYTHON) -m pylint  # ← UPDATED
 BLACK := black
 SCRIPT := main.py
 TEST_FILE := /test
-ALL_FILES := *.py
 
+ALL_FILES := $(shell find . -name "*.py" -type f \
+	-not -path "./.venv/*" \
+	-not -path "./__pycache__/*" \
+	-not -path "./.git/*")
 
 install:
 	@echo "$(BLUE)Installing dependencies...$(NC)"
@@ -25,7 +27,7 @@ install:
 
 lint:
 	@echo "$(BLUE)Running pylint...$(NC)"
-	@$(PYLINT) $(SCRIPT) || (EXIT_CODE=$$?; \
+	@$(PYLINT) $(ALL_FILES) || (EXIT_CODE=$$?; \
 		if [ $$EXIT_CODE -eq 0 ]; then \
 			echo "$(GREEN)✓ No issues found$(NC)"; \
 		elif [ $$EXIT_CODE -eq 4 ]; then \
@@ -68,5 +70,7 @@ format:
 	$(BLACK) $(ALL_FILES)
 	@echo "$(GREEN)✓ Code formatted$(NC)"
 
-make all: install lint test format
+all: install lint test format
 	@echo "$(GREEN)✓ All tasks completed successfully$(NC)"
+
+.PHONY: install lint test format all

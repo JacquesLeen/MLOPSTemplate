@@ -7,12 +7,13 @@ from sklearn.model_selection import train_test_split
 from sklearn.datasets import load_iris
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
+from sklearn.utils import Bunch
 import joblib
 
-# load the iris dataset
-data = load_iris()
+# pylint: disable=no-member
 
-print(type(data))
+# load the iris dataset
+data: Bunch = load_iris()
 
 X = data.data
 y = data.target
@@ -32,4 +33,4 @@ y_pred = clf.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 print(f"Model Accuracy: {accuracy * 100:.2f}%")
 
-joblib.dump(clf, "random_forest_model.joblib")
+joblib.dump(clf, "app/random_forest_model.joblib")
