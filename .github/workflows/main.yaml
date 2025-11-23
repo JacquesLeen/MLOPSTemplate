@@ -1,5 +1,5 @@
 #yaml file for workflow configuration on push to main branch
-nname: Python Application test with Github Actions
+name: Python Application test with Github Actions
 
 on: [push]
 
